@@ -1,0 +1,36 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {"major": 3, "minor": 21, "patch": 0},
+  "configurePresets": [
+    {
+      "name": "cpu-debug",
+      "displayName": "CPU Debug",
+      "binaryDir": "${sourceDir}/build/cpu-debug",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Debug", "BUILD_TESTING": "ON"}
+    },
+    {
+      "name": "cpu-release",
+      "inherits": "cpu-debug",
+      "displayName": "CPU Release",
+      "binaryDir": "${sourceDir}/build/cpu-release",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Release"}
+    },
+    {
+      "name": "cpu-sanitize",
+      "inherits": "cpu-debug",
+      "displayName": "CPU Sanitizers (Linux/macOS)",
+      "binaryDir": "${sourceDir}/build/cpu-sanitize",
+      "cacheVariables": {"CLOTH_ENABLE_SANITIZERS": "ON"}
+    }
+  ],
+  "buildPresets": [
+    {"name": "cpu-debug", "configurePreset": "cpu-debug", "configuration": "Debug"},
+    {"name": "cpu-release", "configurePreset": "cpu-release", "configuration": "Release"},
+    {"name": "cpu-sanitize", "configurePreset": "cpu-sanitize", "configuration": "Debug"}
+  ],
+  "testPresets": [
+    {"name": "cpu-debug", "configurePreset": "cpu-debug", "configuration": "Debug", "output": {"outputOnFailure": true}, "execution": {"noTestsAction": "error"}},
+    {"name": "cpu-release", "configurePreset": "cpu-release", "configuration": "Release", "output": {"outputOnFailure": true}, "execution": {"noTestsAction": "error"}},
+    {"name": "cpu-sanitize", "configurePreset": "cpu-sanitize", "configuration": "Debug", "output": {"outputOnFailure": true}, "execution": {"noTestsAction": "error"}}
+  ]
+}

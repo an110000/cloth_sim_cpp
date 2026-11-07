@@ -1,0 +1,33 @@
+{
+  "task": "05A",
+  "fixture_version": 1,
+  "numpy": "1.25.2",
+  "source_sha256": {
+    "core/mesh.py": "009dd66840fab451f923bbbd5619447b9ca50fb1d1578dde42a6593357ed5f6a",
+    "core/constraints.py": "13dba42cf88ab3f2f6671ba999b29efb3720a558c0ade102c8dd6dbe222948c6",
+    "core/energy.py": "ec163ca6660a366071043250d093d7d61aa8c84d15626c0ca8e231637496ca30",
+    "core/material.py": "3420bb27e4f373a994ad39aff3b135defc6db5e7b5711ed290e9f0082ee5e411",
+    "core/mass.py": "52b45e5e42349cda95b04e1b44ea61df81a2ff56545cbde737ea6474f96bed0c",
+    "solvers/xpbd.py": "e08a1532346a840d9561143129749202a644e67512c0424df61872fa7838a78b",
+    "solvers/xpbd_neohookean.py": "7aebeaff73734f8716b078b8b14404886606e456b433da244ab9d420cefdbcb3"
+  },
+  "fixture_sha256": "aafb3c0e9bd61306001a796834a73412337905769e87d0bee2df488c1298513b",
+  "counts": {
+    "local_cases": 6,
+    "local_projections": 12,
+    "trajectories": 4,
+    "time_steps": 32
+  },
+  "gradient_relative_errors": {
+    "rest": 1.3093312680626767e-11,
+    "nonlinear": 4.9821011593281805e-11,
+    "scaled_constraint": 2.7154150460801747e-10,
+    "nonzero_multiplier": 7.192238369047536e-11,
+    "hard_energy": 4.9821011593281805e-11,
+    "log_continuation": 1.7070214023792432e-10
+  },
+  "largest_raw_error": 0.0004306719348945749,
+  "largest_compliant_error": 4.23535111967804e-09,
+  "scale_equivalence_max_position_difference": 1.933089105454755e-14,
+  "note": "All source geometries valid. Finite Python converged flag is not residual convergence. No contact/friction."
+}

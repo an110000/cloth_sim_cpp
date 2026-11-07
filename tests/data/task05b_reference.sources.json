@@ -1,0 +1,90 @@
+{
+  "task": "05B",
+  "fixture_version": 1,
+  "numpy": "1.25.2",
+  "scipy": "1.10.1",
+  "source_sha256": {
+    "core/contact.py": "fccc5a15d1a3f3300d9cfa75032446e5a54d69fab21b4c919dad65b05e78b3d0",
+    "core/friction.py": "266c56013bc8677faae84e6b97cd40158cb2100df97378d18eb71f299b0a5b44",
+    "core/simulation.py": "b6877701cfda82025f2df2c8d5ec11b8731a1bc9a71fc7b3a77dde470a8b174e",
+    "core/mesh.py": "009dd66840fab451f923bbbd5619447b9ca50fb1d1578dde42a6593357ed5f6a",
+    "core/mass.py": "52b45e5e42349cda95b04e1b44ea61df81a2ff56545cbde737ea6474f96bed0c",
+    "core/mass_sparse.py": "a807e838159d27c3fa951ff70304375e57685f3da69c059448bb5f812f988fb3",
+    "core/material.py": "3420bb27e4f373a994ad39aff3b135defc6db5e7b5711ed290e9f0082ee5e411",
+    "core/energy.py": "ec163ca6660a366071043250d093d7d61aa8c84d15626c0ca8e231637496ca30",
+    "core/constraints.py": "13dba42cf88ab3f2f6671ba999b29efb3720a558c0ade102c8dd6dbe222948c6",
+    "core/bending.py": "ded570701146d5530203a0ac29ebdc0eac634a19745dafe47c3bb0d0374fb287",
+    "solvers/implicit.py": "562b98846a29973638a3e70c46fec801a23a0383d2026027db7c61fe073a52d1",
+    "solvers/implicit_sparse.py": "8d9e6c4f5904bb0956db3acd147e80b485773513bf63194545e14e57f5bc658d",
+    "solvers/xpbd.py": "e08a1532346a840d9561143129749202a644e67512c0424df61872fa7838a78b",
+    "solvers/xpbd_neohookean.py": "7aebeaff73734f8716b078b8b14404886606e456b433da244ab9d420cefdbcb3"
+  },
+  "fixture_sha256": "13b49714b21bcfd5ba387e63f013b844a50738cb0132cff53d01b6a7265980ec",
+  "counts": {
+    "friction_cases": 4,
+    "ground_cases": 5,
+    "penalty_cases": 2,
+    "legacy_audits": 3,
+    "trajectories": 4,
+    "time_steps": 32
+  },
+  "maximum_penalty_gradient_fd_error": 9.451923688175157e-10,
+  "maximum_final_implicit_residual": 7.901288842875389e-11,
+  "legacy_audits": [
+    {
+      "name": "fixed_below_ground",
+      "reported_normal_impulse": 0.0,
+      "actual_normal_momentum_change": 0.4
+    },
+    {
+      "name": "separating_velocity",
+      "reported_normal_impulse": 0.0,
+      "actual_normal_momentum_change": -1.0
+    },
+    {
+      "name": "beta_reported_impulse",
+      "reported_normal_impulse": 0.8,
+      "actual_normal_momentum_change": 0.4
+    }
+  ],
+  "trajectories": [
+    {
+      "name": "implicit_lumped",
+      "steps": 8,
+      "contact_steps": 8,
+      "original_eta": 30.0,
+      "port_eta": 30.0,
+      "friction": 0.25,
+      "total_friction_dissipation": 0.013902599867178766
+    },
+    {
+      "name": "implicit_consistent",
+      "steps": 8,
+      "contact_steps": 8,
+      "original_eta": 30.0,
+      "port_eta": 15.0,
+      "friction": 0.0,
+      "total_friction_dissipation": 0.0
+    },
+    {
+      "name": "distance",
+      "steps": 8,
+      "contact_steps": 8,
+      "original_eta": 30.0,
+      "port_eta": 30.0,
+      "friction": 0.25,
+      "total_friction_dissipation": 0.0018315115286979108
+    },
+    {
+      "name": "energy",
+      "steps": 8,
+      "contact_steps": 8,
+      "original_eta": 30.0,
+      "port_eta": 30.0,
+      "friction": 0.25,
+      "total_friction_dissipation": 0.011814297047466667
+    }
+  ],
+  "consistent_policy": "physical row-sum=2*original diagonal masses checked; eta_port=eta_original/2; friction=0; parameter-mapped comparison only",
+  "count_policy": "zero-vt sticking counts from contact.py and friction.py intentionally differ; no cross-port equality assertion for those counts"
+}

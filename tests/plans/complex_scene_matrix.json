@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "purpose": "Engineering test design only; not executable scene inputs or completed test results",
+  "status": "planned",
+  "release_ready": false,
+  "current_capabilities": {"library_triangle_membrane": true, "fixed_six_vertex_cli": true, "configurable_scene_runner": true, "asset_import": false, "cpp_contact_friction": true, "bvh": false, "self_collision": false, "ccd": false, "kinematic_obstacles": false, "cuda_backend": false, "cloud_execution_verified": false},
+  "contact_scope": "Task 05B world +Y plane only; in-Newton penalty or post-XPBD projection plus nodal Coulomb friction; no arbitrary obstacle collision",
+  "required_gates": ["G0_reproducible_input", "G1_cpu_correctness", "G2_numerical_quality", "G3_real_gpu_correctness", "G4_fair_performance", "G5_cloud_long_run"],
+  "threshold_profile": {"status": "pending_calibration", "method": "application limits plus independent reference/refinement studies; freeze before performance measurement", "values": null},
+  "run_contract": {
+    "required_metadata": ["source_archive_sha256", "commit_and_dirty_state_if_available", "asset_sha256", "scene_sha256", "model_identity", "mass_mode", "bending_model", "dt_and_substeps", "solver_budget_and_tolerances", "precision", "backend_confirmed", "device_and_toolchain", "container_digest_if_used", "random_state", "physical_steps_requested_and_committed"],
+    "outcomes": ["pass", "fail_numerical", "fail_memory", "fail_environment", "timeout", "interrupted", "unsupported", "not_run"],
+    "mandatory_gpu_job_without_device": "fail_environment",
+    "silent_cpu_fallback_allowed": false,
+    "failures_in_performance_report_must_be_retained": true
+  },
+  "cases": [
+    {"id": "C01", "name": "reference_patch_rigid_transform_and_freefall", "kind": "verification", "status": "planned", "library_coverage": "partial_existing_tests", "prerequisites": ["configurable_scene_runner"], "metrics": ["mass_kg", "energy_transform_error", "gradient_transform_error", "fixed_drift_m", "analytic_position_error_m", "min_area_ratio_J", "invalid_steps"], "measured": null},
+    {"id": "C02", "name": "hanging_cloth_resolution_and_dt_sweep", "kind": "numerical_and_scaling", "status": "planned", "grid_cells_per_axis_candidates": [16, 64, 128], "prerequisites": ["configurable_scene_runner", "model_resolution_scaling_review", "memory_budget"], "metrics": ["committed_fraction", "fixed_drift_m", "compliant_R_by_group_and_unit", "stationarity_position_defect_m", "min_area_ratio_J", "time_refinement_error", "wall_time_s", "peak_ram_bytes", "peak_vram_bytes_if_cuda"], "measured": null},
+    {"id": "C03", "name": "irregular_cut_pattern_with_hole_or_notch", "kind": "asset_and_fem_verification", "status": "planned", "prerequisites": ["valid_2d_material_pattern_input", "arbitrary_triangle_topology"], "metrics": ["topology_validation", "reference_area_quality", "mass_integral_error", "affine_patch_local_oracle_error", "small_reference_solution_error", "degenerate_input_rejection"], "measured": null},
+    {"id": "C04", "name": "plane_drop_slide_and_inclined_patch", "kind": "contact_and_friction", "status": "planned", "library_coverage": "partial_world_y_plane_contact_only", "fulfilled_prerequisites": ["task05b_contact_friction"], "prerequisites": ["configurable_scene_runner", "configurable_plane_normal_for_incline"], "metrics": ["max_penetration_m", "penetration_over_cloth_thickness", "negative_normal_response", "friction_cone_violation", "friction_work_J", "external_work_budget_J", "fixed_drift_m"], "measured": null},
+    {"id": "C05", "name": "cloth_over_static_sphere_or_capsule", "kind": "analytic_obstacle_contact", "status": "planned", "prerequisites": ["analytic_shape_queries_and_response", "complete_feature_contact_tests"], "mandatory_subcase": "vertices_outside_but_triangle_intersects_sphere", "metrics": ["distance_oracle_error_m", "whole_triangle_missed_contacts", "max_penetration_m", "contact_residual", "substep_sensitivity"], "measured": null},
+    {"id": "C06", "name": "cloth_over_static_concave_chair_mesh", "kind": "mesh_collision", "status": "planned", "prerequisites": ["collision_asset_validation", "bvh", "complete_narrow_phase", "contact_response"], "oracle": "small-scene brute-force triangle-feature comparison plus known geometric cases", "metrics": ["missed_broad_phase_candidates", "missed_narrow_phase_contacts", "max_penetration_m", "failed_steps", "candidate_pairs", "contact_pairs", "collision_wall_time_s"], "measured": null},
+    {"id": "C07", "name": "kinematic_human_or_capsule_rig", "kind": "driven_contact", "status": "planned", "prerequisites": ["kinematic_trajectory", "surface_velocity", "contact_response"], "metrics": ["trajectory_interpolation_error", "relative_contact_velocity_error", "max_penetration_m", "drive_work_J", "energy_exchange_error_J"], "measured": null},
+    {"id": "C08", "name": "multilayer_fold_and_high_speed_crossing", "kind": "self_collision_and_ccd", "status": "planned", "prerequisites": ["self_collision", "adjacency_filters", "vertex_triangle_and_edge_edge_queries", "ccd", "thickness_policy"], "metrics": ["invalid_adjacency_filtering", "minimum_layer_gap_m", "time_of_impact_oracle_error_s", "missed_crossing_events", "candidate_pair_growth", "peak_memory_bytes", "failed_steps"], "measured": null}
+  ]
+}

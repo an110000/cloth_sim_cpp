@@ -1,0 +1,11 @@
+# Minimal deterministic task-06 scene file. Values are SI units.
+base=teaching
+solver=xpbd-distance
+mass_mode=lumped
+dt=0.01
+steps=3
+run_seed=6
+ground_enabled=true
+ground_y=-0.03
+friction=0.3
+static_friction=0.5

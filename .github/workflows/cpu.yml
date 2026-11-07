@@ -1,0 +1,75 @@
+name: CPU correctness
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    name: ${{ matrix.os }} / ${{ matrix.preset }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            preset: cpu-debug
+          - os: ubuntu-24.04
+            preset: cpu-release
+          - os: ubuntu-24.04
+            preset: cpu-sanitize
+          - os: windows-2022
+            preset: cpu-debug
+          - os: windows-2022
+            preset: cpu-release
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }}
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }} --parallel 2
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }} --output-junit ctest-results.xml
+      - name: Repository CPU acceptance
+        if: matrix.os == 'ubuntu-24.04' && matrix.preset == 'cpu-release'
+        run: |
+          python3 tools/run_ci_cpu_acceptance.py \
+            --build "${{ github.workspace }}/build/${{ matrix.preset }}" \
+            --output "${{ github.workspace }}/build/${{ matrix.preset }}/ci-acceptance"
+      - name: Save test evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evidence-${{ matrix.os }}-${{ matrix.preset }}
+          retention-days: 14
+          path: |
+            build/${{ matrix.preset }}/ctest-results.xml
+            build/${{ matrix.preset }}/Testing/Temporary/LastTest.log
+            build/${{ matrix.preset }}/CMakeFiles/CMakeConfigureLog.yaml
+            build/${{ matrix.preset }}/cli-test/
+            build/${{ matrix.preset }}/xpbd-cli-test/
+            build/${{ matrix.preset }}/energy-xpbd-cli-test/
+            build/${{ matrix.preset }}/contact-cli-test/
+            build/${{ matrix.preset }}/task06-scene-cli-test/
+            build/${{ matrix.preset }}/task06-implicit-scene-cli-test/
+            build/${{ matrix.preset }}/task06-energy-scene-cli-test/
+            build/${{ matrix.preset }}/task07-custom-mesh-scene-cli-test/
+            build/${{ matrix.preset }}/ci-ctest-results.xml
+            build/${{ matrix.preset }}/ci-acceptance/
+
+  container-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: docker build -t cloth-cpu .
+      - run: docker run --rm cloth-cpu

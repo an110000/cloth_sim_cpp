@@ -1,0 +1,10 @@
+base=teaching
+solver=implicit
+mass_mode=lumped
+dt=0.01
+steps=2
+ground_enabled=true
+ground_y=-0.03
+contact_eta=30
+friction=0.3
+static_friction=0.5
